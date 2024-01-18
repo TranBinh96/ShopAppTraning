@@ -1,6 +1,7 @@
 package com.project.shopbaby.controller;
 
 import com.project.shopbaby.dtos.CategoryDTO;
+import com.project.shopbaby.dtos.ErrorDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/categories")
+@RequestMapping("${api.prefix}/categories")
 //@Validated
 public class CategoryController {
     @GetMapping("")
@@ -28,12 +29,7 @@ public class CategoryController {
             @RequestBody  CategoryDTO dto,
             BindingResult result){
         if (result.hasErrors()){
-            List<String> errorMessage =  result
-                    .getFieldErrors()
-                    .stream()
-                    .map(FieldError:: getDefaultMessage)
-                    .toList();
-            return  ResponseEntity.badRequest().body(errorMessage);
+            return  ResponseEntity.badRequest().body(ErrorDTO.getErrorMessage(result));
         }
         return  ResponseEntity.ok("this is insertCategory"+dto.name);
     }
