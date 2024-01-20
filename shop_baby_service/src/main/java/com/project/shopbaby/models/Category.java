@@ -1,5 +1,6 @@
 package com.project.shopbaby.models;
 
+import com.project.shopbaby.dtos.CategoryDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,4 +19,12 @@ public class Category {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    public  static  Category getFromData(CategoryDTO categoryDTO){
+        Category newcategory =  Category.builder()
+                .name(categoryDTO.getName())
+                .build();
+        return  newcategory;
+    }
+
 }

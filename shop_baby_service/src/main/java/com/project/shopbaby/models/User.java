@@ -1,5 +1,7 @@
 package com.project.shopbaby.models;
 
+import com.project.shopbaby.dtos.UserDTO;
+import com.project.shopbaby.dtos.UserLoginDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,5 +49,18 @@ public class User extends BaseEntity  {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    public  static  User fromData(UserDTO userDTO){
+        User user = User.builder()
+                .fullName(userDTO.getFullName())
+                .phoneNumber(userDTO.getPhoneNumber())
+                .dateOfBirth(userDTO.getDateOfBirth())
+                .address(userDTO.getAddress())
+                .active(true)
+                .facebookAccountId(userDTO.getFacebookAccountId())
+                .googleAccountId(userDTO.getGoogleAccountId())
+                .build();
+        return user;
+    }
 
 }

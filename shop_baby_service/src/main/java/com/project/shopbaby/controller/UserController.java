@@ -2,8 +2,10 @@ package com.project.shopbaby.controller;
 
 import com.project.shopbaby.dtos.UserDTO;
 import com.project.shopbaby.dtos.UserLoginDTO;
+import com.project.shopbaby.models.User;
+import com.project.shopbaby.services.UserService;
 import jakarta.validation.Valid;
-import org.apache.catalina.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -16,31 +18,47 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/users")
+@RequiredArgsConstructor
 public class UserController {
+    private  final UserService userService;
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result){
-        if (result.hasErrors()){
-            List<String> errorMessage = result
-                    .getFieldErrors()
-                    .stream()
-                    .map(FieldError::getDefaultMessage)
-                    .toList();
-            return  ResponseEntity.badRequest().body(errorMessage);
+        try{
+            if (result.hasErrors()){
+                List<String> errorMessage = result
+                        .getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .toList();
+                return  ResponseEntity.badRequest().body(errorMessage);
+            }
+            User user = userService.createUser(userDTO);
+
+            return  ResponseEntity.ok(user);
+        }catch (Exception exception){
+            return  ResponseEntity.badRequest().body(exception.getMessage());
         }
-        return  ResponseEntity.ok("Register Success");
     }
 
     @PostMapping("/login")
     public  ResponseEntity<?> loginUser(@Valid @RequestBody UserLoginDTO userDTO, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            List<String> errorMessage = bindingResult
-                    .getFieldErrors()
-                    .stream()
-                    .map(FieldError::getDefaultMessage)
-                    .toList();
-            return  ResponseEntity.badRequest().body(errorMessage);
+        try{
+            if (bindingResult.hasErrors()){
+                List<String> errorMessage = bindingResult
+                        .getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .toList();
+                return  ResponseEntity.badRequest().body(errorMessage);
+            }
+            com.project.shopbaby.models.User user = userService.Login(userDTO);
+
+
+            return  ResponseEntity.ok(user);
+
+        }    catch (Exception exception){
+            return  ResponseEntity.badRequest().body(exception.getMessage());
         }
-        return  ResponseEntity.ok("Login  Success");
     }
 
 }

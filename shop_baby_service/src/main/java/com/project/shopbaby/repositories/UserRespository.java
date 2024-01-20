@@ -1,5 +1,6 @@
 package com.project.shopbaby.repositories;
 
+import com.project.shopbaby.models.Role;
 import com.project.shopbaby.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,5 +12,9 @@ public interface UserRespository extends JpaRepository<User,Long> {
     Boolean existsByPhoneNumber(String phoneNumber);
 
     Optional<User> findByPhoneNumber(String phoneNumber);
+
+
+
+
 
 }
