@@ -31,4 +31,5 @@ public class OrderDetailResponse {
     @JsonProperty("color")
     private String color;
 
+
 }

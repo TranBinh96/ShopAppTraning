@@ -9,6 +9,6 @@ public interface IOrderDetailService {
     Page<OrderDetailResponse> getAllOrderDetails(Pageable pageable);
     OrderDetailResponse getOrderDetailById(Long Id) throws Exception;
     OrderDetailResponse insertOrderDetail(OrderDetailDTO detailDTO) throws Exception;
-    OrderDetailResponse editOrderDetailById(Long Id,OrderDetailDTO detailDTO);
-    OrderDetailResponse removeOrderDetailById(Long Id);
+    OrderDetailResponse editOrderDetailById(Long Id,OrderDetailDTO detailDTO) throws Exception;
+    OrderDetailResponse removeOrderDetailById(Long Id) throws Exception;
 }

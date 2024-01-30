@@ -68,13 +68,36 @@ public class OrderDetailService implements  IOrderDetailService {
     }
 
     @Override
-    public OrderDetailResponse editOrderDetailById(Long Id, OrderDetailDTO detailDTO) {
+    public OrderDetailResponse editOrderDetailById(Long Id, OrderDetailDTO detailDTO) throws Exception {
+        OrderDetail existOrderDetail = orderDetailRepository.findOrderDetailById(Id);
+        if (existOrderDetail == null)
+            throw  new Exception("Cannot find Orderdetail with By ID : "+Id);
 
-        return null;
+        modelMapper.typeMap(OrderDetailDTO.class,OrderDetail.class)
+                .addMappings(modelMapper -> modelMapper.skip(OrderDetail :: setId));
+        modelMapper.map(detailDTO,existOrderDetail);
+
+        orderDetailRepository.save(existOrderDetail);
+
+        OrderDetailResponse orderDetailResponse = modelMapper.map(existOrderDetail,OrderDetailResponse.class);
+        orderDetailResponse.setProduct_id(existOrderDetail.getProduct().getId());
+        orderDetailResponse.setOrder_id(existOrderDetail.getOrder().getId());
+
+        return orderDetailResponse;
     }
 
     @Override
-    public OrderDetailResponse removeOrderDetailById(Long Id) {
+    public OrderDetailResponse removeOrderDetailById(Long Id) throws Exception {
+        OrderDetail existOrderDetail = orderDetailRepository.findOrderDetailById(Id);
+        if (existOrderDetail == null)
+            throw  new Exception("Cannot find Orderdetail with By ID : "+Id);
+
+        orderDetailRepository.delete(existOrderDetail);
+
+        OrderDetailResponse orderDetailResponse = modelMapper.map(existOrderDetail,OrderDetailResponse.class);
+        orderDetailResponse.setProduct_id(existOrderDetail.getProduct().getId());
+        orderDetailResponse.setOrder_id(existOrderDetail.getOrder().getId());
+
         return null;
     }
 }
