@@ -1,5 +1,6 @@
 package com.project.shopbaby.models;
 
+import com.project.shopbaby.dtos.ProductDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,4 +32,19 @@ public class Product extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    public  static  Product getFromData(ProductDTO productDTO,Category category){
+        Product product =Product
+                .builder()
+                .name(productDTO.getName())
+                .price(productDTO.getPrice())
+                .thumbnail(productDTO.getThumbnail())
+                .description(productDTO.getDescription())
+                .category(category)
+                .build();
+
+        return product;
+    }
+
+
 }

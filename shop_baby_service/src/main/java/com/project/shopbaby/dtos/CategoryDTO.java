@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @Data
+@Builder
 public class CategoryDTO {
     @NotEmpty(message = "Category's name can't be empty")
     public  String name;

@@ -5,7 +5,6 @@ import com.project.shopbaby.models.Category;
 import com.project.shopbaby.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -42,4 +41,5 @@ public class CategoryService  implements  ICategoryService{
         //xoá cứng
         repository.deleteById(id);
     }
+
 }

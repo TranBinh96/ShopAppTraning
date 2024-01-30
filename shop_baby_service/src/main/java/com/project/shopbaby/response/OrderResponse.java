@@ -1,41 +1,48 @@
-package com.project.shopbaby.dtos;
+package com.project.shopbaby.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import com.project.shopbaby.models.Order;
 import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 import java.util.Date;
-
+@Data //String
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Getter
 @Setter
-public class OrderDTO {
-    @JsonProperty("user_id")
-    @Min(value = 1, message = "User's ID must be > 0")
-    private Long userId;
+@Getter
+@Builder
+public class OrderResponse {
 
-    @JsonProperty("fullname")
+    private Long id;
+
+    @JsonProperty("user_id")
+    private Long user_id;
+
+    @JsonProperty("fullName")
     private String fullName;
 
+    @JsonProperty("email")
     private String email;
 
-    @JsonProperty("phone_number")
-    @NotBlank(message = "Phone number is required")
-    @Size(min = 5, message = "Phone number must be at least 5 characters")
+    @JsonProperty("phoneNumber")
     private String phoneNumber;
 
+    @JsonProperty("address")
     private String address;
 
+    @JsonProperty("note")
     private String note;
 
+    @JsonProperty("orderDate")
+    private Date orderDate;
+
+    @JsonProperty("status")
+    private String status;
+
     @JsonProperty("total_money")
-    @Min(value = 0, message = "Total money must be >= 0")
-    private Float totalMoney;
+    private float totalMoney;
 
     @JsonProperty("shipping_method")
     private String shippingMethod;
@@ -46,6 +53,15 @@ public class OrderDTO {
     @JsonProperty("shipping_date")
     private LocalDate shippingDate;
 
+    @JsonProperty("tracking_number")
+    private String trackingNumber;
+
     @JsonProperty("payment_method")
     private String paymentMethod;
+
+    @JsonProperty("active")
+    private Boolean active;//thuộc về admin
+
+
+
 }

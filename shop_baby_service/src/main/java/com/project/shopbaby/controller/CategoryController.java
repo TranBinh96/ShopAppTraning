@@ -1,5 +1,6 @@
 package com.project.shopbaby.controller;
 
+import com.github.javafaker.Faker;
 import com.project.shopbaby.dtos.CategoryDTO;
 import com.project.shopbaby.dtos.ErrorDTO;
 import com.project.shopbaby.models.Category;
@@ -49,6 +50,24 @@ public class CategoryController {
     public  ResponseEntity<String> deleteCategories(@PathVariable Long id){
         categoryService.deleteCategory(id);
         return  ResponseEntity.ok("this is deleteCategory with id : "+id);
+    }
+
+    //fack data category
+
+    @PostMapping("/generateFakeCategory")
+    public  ResponseEntity<?> generateCategory(){
+        Faker faker = new Faker();
+        for (int i=0;i<1000;i++){
+            CategoryDTO categoryDTO =CategoryDTO
+                    .builder()
+                    .name(faker.commerce().material())
+                    .build();
+            categoryService.createCategory(categoryDTO);
+
+        }
+        return  ResponseEntity.ok("Generate Category Success");
+
+
     }
 
 

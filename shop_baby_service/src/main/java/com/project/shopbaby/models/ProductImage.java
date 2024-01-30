@@ -1,5 +1,6 @@
 package com.project.shopbaby.models;
 
+import com.project.shopbaby.dtos.ProductImageDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,12 @@ public class ProductImage {
 
     @Column(name = "image_url", length = 300)
     private String imageUrl;
+
+    public  static  ProductImage getFormData(ProductImageDTO productImageDTO){
+        return  ProductImage
+                .builder()
+                .imageUrl(productImageDTO.getImageUrl())
+                .build();
+    }
 
 }

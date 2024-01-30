@@ -12,5 +12,7 @@ public interface ProductRespoditory extends JpaRepository<Product,Long> {
 
     List<Product> findByCategoryId(Long categoryId);
 
+    Product findProductById(long id);
+
 
 }
