@@ -55,16 +55,26 @@ public class OrderDetailContainer {
              @PathVariable("id") long id,
              @RequestBody OrderDetailDTO detailDTO,
              BindingResult result){
-        if (result.hasErrors())
-            return  ResponseEntity.badRequest().body(ErrorDTO.getErrorMessage(result));
-        return  ResponseEntity.ok("Edit OrderDetails Success");
+       try{
+           if (result.hasErrors())
+               return  ResponseEntity.badRequest().body(ErrorDTO.getErrorMessage(result));
 
+           OrderDetailResponse orderDetailResponse = orderDetailService.editOrderDetailById(id,detailDTO);
+
+           return  ResponseEntity.ok(orderDetailResponse);
+       }catch (Exception exception){
+           return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+       }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOrderDetail(@PathVariable("id") long id){
-        return  ResponseEntity.ok("Delete OrderDetails Success");
+        try{
+            return  ResponseEntity.ok(orderDetailService.removeOrderDetailById(id));
 
+        }catch (Exception exception){
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+        }
     }
 
 

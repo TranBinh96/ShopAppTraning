@@ -51,10 +51,8 @@ public class UserController {
                         .toList();
                 return  ResponseEntity.badRequest().body(errorMessage);
             }
-            com.project.shopbaby.models.User user = userService.Login(userDTO);
 
-
-            return  ResponseEntity.ok(user);
+            return  ResponseEntity.ok(userService.Login(userDTO));
 
         }    catch (Exception exception){
             return  ResponseEntity.badRequest().body(exception.getMessage());

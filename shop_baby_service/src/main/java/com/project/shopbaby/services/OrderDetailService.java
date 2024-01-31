@@ -45,20 +45,26 @@ public class OrderDetailService implements  IOrderDetailService {
 
     @Override
     public OrderDetailResponse insertOrderDetail(OrderDetailDTO detailDTO) throws Exception {
+
         Product product = productRespoditory.findProductById(detailDTO.getProductId());
+
         Order order= orderRepository.findOrderById(detailDTO.getOrderId());
+
         if (product == null )
             throw  new Exception("Find cannot Product with Id :  "+detailDTO.getProductId());
+
         if (order == null)
             throw  new Exception("Find cannot Order with Id :  "+detailDTO.getOrderId());
 
         OrderDetail orderDetail = new OrderDetail();
         modelMapper.typeMap(OrderDetailDTO.class,OrderDetail.class)
                 .addMappings(modelMapper -> modelMapper.skip(OrderDetail::setId));
+
         modelMapper.map(detailDTO,orderDetail);
         orderDetail.setOrder(order);
         orderDetail.setProduct(product);
-        orderRepository.save(order);
+        orderDetail.setTotalMoney(orderDetail.getPrice() * orderDetail.getNumberOfProducts());
+        orderDetailRepository.save(orderDetail);
 
         OrderDetailResponse orderDetailResponse = modelMapper.map(orderDetail,OrderDetailResponse.class);
         orderDetailResponse.setProduct_id(orderDetail.getProduct().getId());
@@ -76,6 +82,7 @@ public class OrderDetailService implements  IOrderDetailService {
         modelMapper.typeMap(OrderDetailDTO.class,OrderDetail.class)
                 .addMappings(modelMapper -> modelMapper.skip(OrderDetail :: setId));
         modelMapper.map(detailDTO,existOrderDetail);
+        existOrderDetail.setTotalMoney(existOrderDetail.getPrice() * existOrderDetail.getNumberOfProducts());
 
         orderDetailRepository.save(existOrderDetail);
 

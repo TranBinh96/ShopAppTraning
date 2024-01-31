@@ -45,9 +45,7 @@ public class OrderControler {
 
         }catch (Exception exception){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-
         }
-
     }
 
     @PostMapping("")
@@ -72,11 +70,7 @@ public class OrderControler {
            BindingResult result)  {
         try {
             if (result.hasErrors()){
-                List<String> errorMessage = result.getFieldErrors()
-                        .stream()
-                        .map(FieldError::getDefaultMessage).toList();
-
-                return ResponseEntity.badRequest().body(errorMessage);
+                return ResponseEntity.badRequest().body(ErrorDTO.getErrorMessage(result));
             }
             return  ResponseEntity.ok(orderService.updateOrder(id,orderDTO));
         }catch (Exception exception){

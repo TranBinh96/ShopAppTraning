@@ -15,3 +15,7 @@ servlet:
     max-request-size: 10MB
 api:
   prefix: api/v1
+
+jwt:
+  expiration: 2592000 #30days
+  secreateKey: hLDfQwKN+24RuyY1qpowvKdV96tubBJtz+NQ4BXMXkw=

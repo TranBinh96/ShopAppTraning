@@ -2,6 +2,7 @@ package com.project.shopbaby.controller;
 
 import com.github.javafaker.Faker;
 import com.project.shopbaby.dtos.CategoryDTO;
+import com.project.shopbaby.dtos.ErrorDTO;
 import com.project.shopbaby.dtos.ProductDTO;
 import com.project.shopbaby.dtos.ProductImageDTO;
 import com.project.shopbaby.exceptions.DataNotFoundException;
@@ -60,10 +61,7 @@ public class ProductController {
                            BindingResult result) throws IOException {
         try{
             if (result.hasErrors()){
-                List<String> errorMessage  =  result.getFieldErrors()
-                        .stream()
-                        .map(FieldError::getDefaultMessage).toList();
-                return ResponseEntity.badRequest().body(errorMessage);
+                return ResponseEntity.badRequest().body(ErrorDTO.getErrorMessage(result));
             }
 
 

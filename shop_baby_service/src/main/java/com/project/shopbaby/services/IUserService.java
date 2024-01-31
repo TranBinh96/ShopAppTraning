@@ -8,5 +8,5 @@ import com.project.shopbaby.models.User;
 public interface IUserService {
     User createUser(UserDTO userDTO) throws DataNotFoundException;
 
-    User Login(UserLoginDTO userLoginDTO) throws DataNotFoundException;
+    String Login(UserLoginDTO userLoginDTO) throws Exception;
 }
