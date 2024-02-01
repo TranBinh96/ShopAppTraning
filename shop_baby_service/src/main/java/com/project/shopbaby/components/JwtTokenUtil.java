@@ -9,6 +9,7 @@ import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.InvalidParameterException;
@@ -57,11 +58,11 @@ public class JwtTokenUtil {
         return  screateKey;
     }
 
-    private   Claims extractAllClaims(String token){
+    private Claims extractAllClaims(String token){
         return  Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(token).getBody();
+                .parseClaimsJws(token).getBody();
     }
 
     public   <T> T extractClaim(String token, Function<Claims,T> claimsTFunction){
@@ -74,5 +75,17 @@ public class JwtTokenUtil {
         Date expiritionDate =  this.extractClaim(token,Claims::getExpiration);
         return expiritionDate.before(new Date());
     }
+
+    public  String extractPhoneNumber(String token){
+        return  extractClaim(token,Claims::getSubject);
+    }
+
+    public  boolean validateToken(String token, UserDetails userDetails){
+        String phoneNumber =  extractPhoneNumber(token);
+        return  (phoneNumber.equals(userDetails.getUsername()) && !isTonkenExpired(token));
+    }
+
+
+
 
 }
